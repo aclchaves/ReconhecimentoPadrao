@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalho1;
+package trabalho1.Main;
 
 import trabalho1.Arquivos.Arquivo;
 
@@ -22,17 +22,21 @@ public class Main {
     
     public static void main(String[] args) {
       Arquivo arq = new Arquivo();
-      float[][] matriz;
+      Double[][] matriz;
       int[] classe;
       int linha = 0;
       int coluna = 0;
+  
       matriz = arq.getMatriz();
       classe = arq.getClasses();
       linha = arq.getLinha();
       coluna = arq.getColuna();
-      arq.imprimeClasses(classe);
-      System.out.println();
-      arq.imprimeMatriz(matriz);                 
+      arq.contaClasse();
+     // arq.imprimeClasses(classe); 
+      arq.imprimeProb();
+      
+      //System.out.println();
+      //arq.imprimeMatriz(matriz);                 
         
     }
     

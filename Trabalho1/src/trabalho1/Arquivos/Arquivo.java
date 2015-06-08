@@ -6,6 +6,10 @@
 package trabalho1.Arquivos;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +23,11 @@ public class Arquivo {
     FileInputStream stream;
     InputStreamReader reader;
     BufferedReader br;
-    float[][] matriz;
+    Double[][] matriz;
     int[] classe;
     int linha;
+    List<Integer> listaClasses = new ArrayList<Integer>();
+    List<Integer> listaAmostrasC = new ArrayList<Integer>(); 
 
     public int getLinha() {
         return linha;
@@ -49,28 +55,80 @@ public class Arquivo {
 
         Scanner scanner;
         int cont = 0;
+        int cont2 = 0;
         linha = 0;
         coluna = 0;
         matriz = null;
         classe = null;
         int j = 0;
+        
+        //System.out.printf("Informe o nome de arquivo texto:\n");
+        //String nome = ler.nextLine();
+        //System.out.printf("\nConteúdo do arquivo texto:\n");
+       // try { 
+            FileReader arq;
         try {
-            scanner = new Scanner(new FileReader("C:\\Users\\Andre\\Documents\\NetBeansProjects\\Trabalho1\\src\\trabalho1\\Arquivos\\Input.txt"));
+            arq = new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\teste.txt");
+            BufferedReader lerArq = new BufferedReader(arq);
+            String l = lerArq.readLine();
+            // lê a primeira linha 
+            // a variável "linha" recebe o valor "null" quando o processo
+        // de repetição atingir o final do arquivo texto
+        while (l != null && cont2 <= linha) {
+            String[] l2 = l.split(" ");
+            if(cont == 0){                
+                linha = Integer.parseInt(l2[0]);
+                coluna = Integer.parseInt(l2[1]);
+                System.out.printf(" %s\n", linha);
+                System.out.printf(" %s\n", coluna);
+                matriz = new Double[linha][coluna];
+                classe = new int[linha];
+                cont++;
+            }else{
+                for (int i = 0; i < l2.length-1; i++) {
+                    matriz[j][i] =  Double.parseDouble(l2[i]);
+                }
+                int size = l2.length;
+                classe[j] = Integer.parseInt(l2[size-1]);
+                 j++;                 
+            }        
+            
+            l = lerArq.readLine();
+            cont2++;
+        }
+        // lê da segunda até a última linha 
+        arq.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+         
+
+
+        /*try {
+            scanner = new Scanner(new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\teste.txt"));
 
             while (scanner.hasNext()) {
                 if (cont < 2) {
                     linha = Integer.parseInt(scanner.useDelimiter(" ").next().trim());
                     cont++;
-                    coluna = Integer.parseInt(scanner.useDelimiter("\\r\\n").next().trim());
+                    coluna = Integer.parseInt(scanner.useDelimiter("\\n").next().trim());
                     cont++;
-                    matriz = new float[linha][coluna];
+                    matriz = new Double[linha][coluna];
                     classe = new int[linha];
-                } else {
-                    scanner.useDelimiter(" ");
+                } else {                    
+                    
                     for (int i = 0; i < coluna; i++) {
-                        matriz[j][i] = Float.parseFloat(scanner.next());
+                        if( coluna-1 == i){                          
+                            scanner.useDelimiter("\\n\\r");
+                        }else{
+                            scanner.useDelimiter(" ");
+                        }
+                        matriz[j][i] = Double.parseDouble(scanner.next());
                     }
-                    classe[j] = Integer.parseInt(scanner.useDelimiter("\\r\\n").next().trim());
+                    classe[j] = Integer.parseInt(scanner.useDelimiter("\\n").next().trim());
                     j++;
                 }
 
@@ -78,7 +136,7 @@ public class Arquivo {
         } catch (FileNotFoundException ex) {
             System.out.println("Erro, arquivo não encontrado");
             Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
     }
     
@@ -86,7 +144,7 @@ public class Arquivo {
      * Metodo responsavel por retornar a matriz com os dados.
      * @return float [][]matriz
      */
-    public float[][] getMatriz(){
+    public Double[][] getMatriz(){
         return this.matriz;
     }
     
@@ -122,10 +180,68 @@ public class Arquivo {
                 System.out.print(classe[j] + ",");
                 k++;
                 if (k == 4) {
-                    System.out.println();
+                    //System.out.println();
                     k = 0;
                 }
             } 
     }
+    //verificar se precisa estar ondernado as classes
+    public void contaClasse(){
+        int cont = 0;
+        //int[] arraySort = new int[linha];
+         //arraySort = Arrays.sort(classe);
+        //List<String> listaClasses = new ArrayList<String>();
+        //List<Integer> listaAmostrasC = new ArrayList<Integer>();
+        //listaClasses.add(classe[0]);
+        //listaAmostrasC.add(1);
+        for(int i = 0; i < classe.length; i++ ){
+            if(listaClasses.contains(classe[i])){
+                cont++;
+            }else if(listaClasses.size() == 0){
+            cont++;
+            listaClasses.add(classe[i]);
+        }else{
+                //listaAmostrasC.add(cont);
+               /*if(listaClasses.contains(classe[i])){               
+                    listaAmostrasC.add(cont);   
+                    cont = 0;
+                }else{*/
+                   listaClasses.add(classe[i]);
+                    listaAmostrasC.add(cont);                   
+                    cont = 1;
+                //}
+                    
+            }
+        
+        }
+        listaAmostrasC.add(cont);                   
+        cont = 0;
+   }
+    
+    public void  imprimeProb(){
+        for(int i = 0; i < listaClasses.size(); i++){
+         System.out.print(" Classes = " + listaClasses.get(i));
+         System.out.print(", Total = " + listaAmostrasC.get(i));
+         System.out.println(", Probabilidade: "  +listaAmostrasC.get(i).doubleValue()/linha);
+      }
+    }
+
+    public List<Integer> getListaClasses() {
+        return listaClasses;
+    }
+
+    public void setListaClasses(List<Integer> listaClasses) {
+        this.listaClasses = listaClasses;
+    }
+
+    public List<Integer> getListaAmostrasC() {
+        return listaAmostrasC;
+    }
+
+    public void setListaAmostrasC(List<Integer> listaAmostrasC) {
+        this.listaAmostrasC = listaAmostrasC;
+    }
+    
+   
 
 }
