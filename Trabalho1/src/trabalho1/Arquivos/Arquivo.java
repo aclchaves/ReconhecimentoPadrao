@@ -7,8 +7,6 @@ package trabalho1.Arquivos;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -28,22 +26,6 @@ public class Arquivo {
     int linha;
     List<Integer> listaClasses = new ArrayList<Integer>();
     List<Integer> listaAmostrasC = new ArrayList<Integer>(); 
-
-    public int getLinha() {
-        return linha;
-    }
-
-    public void setLinha(int linha) {
-        this.linha = linha;
-    }
-
-    public int getColuna() {
-        return coluna;
-    }
-
-    public void setColuna(int coluna) {
-        this.coluna = coluna;
-    }
     int coluna;
 
     /**
@@ -65,79 +47,93 @@ public class Arquivo {
         //System.out.printf("Informe o nome de arquivo texto:\n");
         //String nome = ler.nextLine();
         //System.out.printf("\nConteúdo do arquivo texto:\n");
-       // try { 
-            FileReader arq;
+        // try {
+        FileReader arq;
         try {
-            arq = new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\teste.txt");
+            //arq = new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\teste.txt");
+            //arq = new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\Input.txt");
+            arq = new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\Input2.txt");
             BufferedReader lerArq = new BufferedReader(arq);
-            String l = lerArq.readLine();
-            // lê a primeira linha 
-            // a variável "linha" recebe o valor "null" quando o processo
-        // de repetição atingir o final do arquivo texto
-        while (l != null && cont2 <= linha) {
-            String[] l2 = l.split(" ");
-            if(cont == 0){                
-                linha = Integer.parseInt(l2[0]);
-                coluna = Integer.parseInt(l2[1]);
-                System.out.printf(" %s\n", linha);
-                System.out.printf(" %s\n", coluna);
-                matriz = new Double[linha][coluna];
-                classe = new int[linha];
-                cont++;
-            }else{
-                for (int i = 0; i < l2.length-1; i++) {
-                    matriz[j][i] =  Double.parseDouble(l2[i]);
+            String l = lerArq.readLine();            
+            while (l != null && cont2 <= linha) {
+                String[] l2 = l.split(" ");
+                if(cont == 0){
+                    linha = Integer.parseInt(l2[0]);
+                    coluna = Integer.parseInt(l2[1]);
+                    System.out.printf(" %s\n", linha);
+                    System.out.printf(" %s\n", coluna);
+                    matriz = new Double[linha][coluna];
+                    classe = new int[linha];
+                    cont++;
+                }else{
+                    for (int i = 0; i < l2.length-1; i++) {
+                        matriz[j][i] =  Double.parseDouble(l2[i]);
+                    }
+                    int size = l2.length;
+                    classe[j] = Integer.parseInt(l2[size-1]);
+                    j++;
                 }
-                int size = l2.length;
-                classe[j] = Integer.parseInt(l2[size-1]);
-                 j++;                 
-            }        
-            
-            l = lerArq.readLine();
-            cont2++;
-        }
-        // lê da segunda até a última linha 
-        arq.close();
+                
+                l = lerArq.readLine();
+                cont2++;
+            }
+            arq.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-         
-
-
+        
+        
+        
+        
         /*try {
-            scanner = new Scanner(new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\teste.txt"));
-
-            while (scanner.hasNext()) {
-                if (cont < 2) {
-                    linha = Integer.parseInt(scanner.useDelimiter(" ").next().trim());
-                    cont++;
-                    coluna = Integer.parseInt(scanner.useDelimiter("\\n").next().trim());
-                    cont++;
-                    matriz = new Double[linha][coluna];
-                    classe = new int[linha];
-                } else {                    
-                    
-                    for (int i = 0; i < coluna; i++) {
-                        if( coluna-1 == i){                          
-                            scanner.useDelimiter("\\n\\r");
-                        }else{
-                            scanner.useDelimiter(" ");
-                        }
-                        matriz[j][i] = Double.parseDouble(scanner.next());
-                    }
-                    classe[j] = Integer.parseInt(scanner.useDelimiter("\\n").next().trim());
-                    j++;
-                }
-
-            }                    
+        scanner = new Scanner(new FileReader("C:\\Users\\Andre\\Documents\\GitHub\\ReconhecimentoPadrao\\Trabalho1\\src\\trabalho1\\Arquivos\\teste.txt"));
+        
+        while (scanner.hasNext()) {
+        if (cont < 2) {
+        linha = Integer.parseInt(scanner.useDelimiter(" ").next().trim());
+        cont++;
+        coluna = Integer.parseInt(scanner.useDelimiter("\\n").next().trim());
+        cont++;
+        matriz = new Double[linha][coluna];
+        classe = new int[linha];
+        } else {
+        
+        for (int i = 0; i < coluna; i++) {
+        if( coluna-1 == i){
+        scanner.useDelimiter("\\n\\r");
+        }else{
+        scanner.useDelimiter(" ");
+        }
+        matriz[j][i] = Double.parseDouble(scanner.next());
+        }
+        classe[j] = Integer.parseInt(scanner.useDelimiter("\\n").next().trim());
+        j++;
+        }
+        
+        }                    
         } catch (FileNotFoundException ex) {
-            System.out.println("Erro, arquivo não encontrado");
-            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+        System.out.println("Erro, arquivo não encontrado");
+        Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
         }*/
+        
+    }
 
+    public int getLinha() {
+        return linha;
+    }
+
+    public void setLinha(int linha) {
+        this.linha = linha;
+    }
+
+    public int getColuna() {
+        return coluna;
+    }
+
+    public void setColuna(int coluna) {
+        this.coluna = coluna;
     }
     
     /**
@@ -214,7 +210,7 @@ public class Arquivo {
             }
         
         }
-        listaAmostrasC.add(cont);                   
+        listaAmostrasC.add(cont);                  
         cont = 0;
    }
     

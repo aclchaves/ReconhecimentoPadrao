@@ -6,6 +6,7 @@
 package trabalho1.Main;
 
 import trabalho1.Arquivos.Arquivo;
+import trabalho1.Arquivos.NavesBayes.NavesBayes;
 
 /**
  *
@@ -26,14 +27,22 @@ public class Main {
       int[] classe;
       int linha = 0;
       int coluna = 0;
+      double[] media;
+      double[] desvio;
   
       matriz = arq.getMatriz();
       classe = arq.getClasses();
       linha = arq.getLinha();
       coluna = arq.getColuna();
       arq.contaClasse();
-     // arq.imprimeClasses(classe); 
-      arq.imprimeProb();
+
+      NavesBayes nv = new NavesBayes();
+      media = nv.mediaAtributo(matriz, linha, coluna);
+      nv.imprimeMediaAtributo(media, media.length);
+      desvio = nv.desvioPadraoAtributo(matriz, linha, coluna, media);
+      nv.imprimeDesvioAtributo(desvio, desvio.length);
+      // arq.imprimeClasses(classe); 
+      //arq.imprimeProb();
       
       //System.out.println();
       //arq.imprimeMatriz(matriz);                 
